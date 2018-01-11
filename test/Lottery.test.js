@@ -58,4 +58,27 @@ describe('Lottery Contract', () => {
         assert.equal(accounts[2], players[2]);
         assert.equal(3, players.length);
     });
+
+    it('requires a minimum amount of ether to enter', async () => {
+        try {
+            await lottery.mehtods.enter().send({
+                from: accounts[0],
+                value: 200 //in weis by default
+            });
+            assert(false);
+        } catch (err) {
+            assert(err);
+        };
+    });
+
+    it('only manager can call pickWinner', async () => {
+        try {
+            await lottery.mehtods.pickWinner().send({
+                from: accounts[1]
+            });
+            assert(false);
+        } catch (err) {
+            assert(err);
+        };
+    });
 });
